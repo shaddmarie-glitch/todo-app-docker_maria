@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: todo
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+web:
+  build: .
+  restart: unless-stopped
+  ports:
+    - "3000:3000"
+  environment:
+    PGHOST: db
+    PGDATABASE: todo
+    PGUSER: postgres
+    PGPASSWORD: example
+  depends_on:
+    - db
+
+volumes:
+  pgdata:
