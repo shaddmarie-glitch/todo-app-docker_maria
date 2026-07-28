@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-web
+  template:
+    metadata:
+      labels:
+        app: todo-web
+    spec:
+      containers:
+        - name: todo-web
+          image: shaddmm/todo-app:latest   # <--- ВАШ ОБРАЗ
+          imagePullPolicy: Always
+          env:
+            - name: PGHOST
+              value: dbs
+            - name: PGDATABASE
+              value: todo
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              value: example
+          ports:
+            - containerPort: 3000
